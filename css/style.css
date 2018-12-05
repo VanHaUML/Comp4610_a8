@@ -1,0 +1,86 @@
+/*
+     File: https://vanhauml.github.io/Comp4610_a8/css/style.css
+     Assignment 8: Using the jQuery UI Slider and Tab Widgets
+	 Course: COMP4610 GUI I
+	 Name: Van Ha, Senior UMass Lowell EE/CS Student
+	 Email: van_ha@student.uml.edu
+	 Copyright 2018 by Van Ha
+	 Date Updated: 12/04/2018
+
+    CSS file for Interactive Dynamic Table page with jQuery UI Slider and Tab Widgets.
+
+	style.css file was validated at https://jigsaw.w3.org/css-validator/.
+*/
+
+/* Styling for input form */
+fieldset {
+  width: 50%;
+}
+
+label {
+  display: inline-block;
+  width: 50%;
+}
+
+legend {
+  font-size: 200%;
+}
+
+input {
+  display: inline-block;
+  width: 50%;
+}
+
+.values {
+  padding: 10px;
+}
+
+.values:not(:last-child) {
+  border-bottom: 1px solid black;
+}
+
+/* styling for multiplcation table */
+td {
+  padding: 5px;
+  border: 2px solid black;
+}
+
+th {
+  border: 2px solid black;
+  padding: 5px;
+  background-color: red;
+}
+
+tr:first-child th:first-child {
+  visibility: hidden;
+}
+
+/* checkerbox effect for table cells */
+tr td {
+  background-color: black;
+  color: white;
+}
+
+tr:nth-child(odd) td:nth-child(even),
+tr:nth-child(even) td:nth-child(odd) {
+  background-color: white;
+  color: black;
+}
+
+/* styling for input error messages*/
+div.error {
+  color: red;
+}
+
+/* matching width to input width and margins give some space
+    between input and associated slider.
+*/
+.slider {
+  margin: 5px 5px 5px 0;
+  width: 50%;
+}
+
+/* styling for buttons */
+button {
+  margin: 5px;
+}
