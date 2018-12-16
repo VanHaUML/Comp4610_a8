@@ -1,47 +1,89 @@
 /*
 	 File: https://vanhauml.github.io/Comp4610_a8/js/mtable.js
-     Assignment 8: Using the jQuery UI Slider and Tab Widgets
+   Assignment 8: Using the jQuery UI Slider and Tab Widgets
 	 Course: COMP4610 GUI I
 	 Name: Van Ha, Senior UMass Lowell EE/CS Student
 	 Email: van_ha@student.uml.edu
 	 Copyright 2018 by Van Ha
-	 Date Updated: 12/04/2018
+	 Date Updated: 12/15/2018
 
     Javascript file for Interactive Dynamic Table page with
     jQuery Validation plugin, jQuery UI Slider, and jQuery Tab Widget.
 
 */
 
-/* Adds multiplcation table to tabs. Not working right. Can add tabs
-   and content but all content is shown and can't select tabs.
-   Remove doesn't work right either.
+/* Adds multiplcation table to tabs. Capable of removing a single tab
+   with close icon on each tab.
    Handout was referenced for these, especially the remove function.
+   Other sources listed in comments.
    */
+
 var totalTabs = 0;
+// Adds a tab with current table as its content
 function addTab() {
   if ($("#multiplicationTableForm").valid()) {
-    var numTab = $("tabs li").length + 1;
-    totalTabs = totalTabs + 1;
+    if (totalTabs == 0) {
+      totalTabs = $("#tabsList li").length + 1;
+    }
+    else {
+      totalTabs++;
+    }
+    
     var xLow = parseInt(document.getElementById("lowColVal").value);
     var xHigh = parseInt(document.getElementById("highColVal").value);
     var yLow = parseInt(document.getElementById("lowRowVal").value);
     var yHigh = parseInt(document.getElementById("highRowVal").value);
 
-    $("<li><a href='#t'" + numTab + ">" + xLow + " " + xHigh + " " + yLow + " "
-    + yHigh + "</a></li>").appendTo("#tabs ul");
+    $("<li id='lt" + totalTabs + "'><a href='#t" + totalTabs + "'>t" + totalTabs + ": " + xLow + " " + xHigh + " " + yLow + " "
+    + yHigh + "</a> <span class='ui-icon ui-icon-close' role='presentation'></span> </li>").appendTo("#tabsList");
 
-    $($("#table").html()).appendTo("#tabs");
+    var tabContent = $("#tableDiv").html();
+    tabContent = "<div id='t" + totalTabs + "'>" + tabContent + "</div>";
+    $(tabContent).appendTo("#tabs");
     $("#tabs").tabs("refresh");
+    $("#tabs").tabs("option", "active", -1);
+
+    /* Close icon on tabs. Based on example found at the following link.
+       https://jqueryui.com/tabs/#manipulation
+    */
+    $("#tabs").on( "click","span.ui-icon-close", function() {
+      var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+      $( "#" + panelId ).remove();
+      $("#cb" + panelId).remove();
+      $("#tabs").tabs( "refresh" );
+    });
+
+    addCheckbox(totalTabs);
   }
 }
 
-function tabRemove() {
-  $("#tabs").tabs("remove", parseInt($("tabRemove").val()));
+// Removes checked tabs
+function removeTabs() {
+  $("input[type=checkbox]:checked").each(function(){
+    var cbVal = $(this).val();
+    $("#" + cbVal).remove();
+    $("#l" + cbVal).remove();
+    $("#cb" + cbVal).remove();
+    $("#tabs").tabs( "refresh" );
+  })
 }
 
-// validates input of form to be integers only
+// Adds checkbox for tab deletion
+function addCheckbox (num) {
+  var newCB = "<div class = 'cbDiv' id='cbt" + num + "'><input type='checkbox' id='c" + num + "' name='" + num + "' value='t" + num + "'>" + 
+              "<label for='c" + num + "'>t" + num + "</label></div>";
+  $(newCB).appendTo("#cbFieldset");
+}
+
+
+// Resets the page. Naming the function resetPage caused an error.
+function reloadPage() {
+  location.reload();
+}
+
+// Validates input of form to be integers only
 $(document).ready(function() {
-  // additional methods used to make sure low values are less than or equal to high values
+  // Additional methods used to make sure low values are less than or equal to high values
   $.validator.addMethod("less_than_equal_to", function(value, element, param) {
     if ($(param).val() == "") {
       return true;
@@ -136,9 +178,8 @@ $(document).ready(function() {
     validate();
   });
 
-  $("#tabs").tabs();
   
-  /* validation of form inputs*/
+  // Validation of form inputs
   $("#multiplicationTableForm").validate({
     rules: {
       lowColVal: {
@@ -170,7 +211,7 @@ $(document).ready(function() {
         greater_than_equal_to: "#lowRowVal"
       }
     },
-    /* error messages for invalid input fields */
+    // Error messages for invalid input fields
     messages: {
       lowColVal: {
         required: "This field is required.",
@@ -203,16 +244,19 @@ $(document).ready(function() {
     },
     errorElement: "div"
   });
+
+  $("#tabs").tabs();
+
 });
 
-/* validates form and creates table if valid */
+// Validates form and creates table if valid
 function validate() {
   if ($("#multiplicationTableForm").valid()) {
     makeTable();
   }
 }
 
-/* creates multiplication table */
+// Creates multiplication table
 function makeTable() {
   var xLow = parseInt(document.getElementById("lowColVal").value);
   var xHigh = parseInt(document.getElementById("highColVal").value);
@@ -244,12 +288,12 @@ function makeTable() {
   writeOut(addition);
 }
 
-/* writes to HTML file */
+// Writes to HTML file
 function writeOut(add) {
-  document.getElementById("table").innerHTML = add;
+  document.getElementById("tableDiv").innerHTML = add;
 }
 
-/* clears section of HTML javascript writes to*/
+// Clears section of HTML javascript writes to
 function clearAll() {
   writeOut("");
 }

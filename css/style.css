@@ -1,20 +1,42 @@
 /*
-     File: https://vanhauml.github.io/Comp4610_a8/css/style.css
-     Assignment 8: Using the jQuery UI Slider and Tab Widgets
+   File: https://vanhauml.github.io/Comp4610_a8/css/style.css
+   Assignment 8: Using the jQuery UI Slider and Tab Widgets
 	 Course: COMP4610 GUI I
 	 Name: Van Ha, Senior UMass Lowell EE/CS Student
 	 Email: van_ha@student.uml.edu
 	 Copyright 2018 by Van Ha
-	 Date Updated: 12/04/2018
+	 Date Updated: 12/15/2018
 
     CSS file for Interactive Dynamic Table page with jQuery UI Slider and Tab Widgets.
 
 	style.css file was validated at https://jigsaw.w3.org/css-validator/.
 */
 
+html, body {
+  height: 100%;
+}
+/* column flexbox with input form and table on top and tabs and checkbox on bottom*/
+#outerbox {
+  display: flex;
+  flex-direction: column;
+}
+
+/* flexbox that contains input and dynamic table 
+   height set at value which prevents table from
+   overflowing height of parent element
+*/
+#container {
+  display: flex;
+  height: 100%;
+}
+
 /* Styling for input form */
+#multiplicationTableForm {
+  min-width: 30%;
+}
+
 fieldset {
-  width: 50%;
+  width: 80%;
 }
 
 label {
@@ -31,6 +53,10 @@ input {
   width: 50%;
 }
 
+#remTab {
+  display: block;
+}
+
 .values {
   padding: 10px;
 }
@@ -40,14 +66,17 @@ input {
 }
 
 /* styling for multiplcation table */
+#tableDiv {
+  width: 50%;
+}
+
 td {
-  padding: 5px;
-  border: 2px solid black;
+  border: 1px solid black;
+  margin: 0;
 }
 
 th {
-  border: 2px solid black;
-  padding: 5px;
+  border: 1px solid black;
   background-color: red;
 }
 
@@ -83,4 +112,27 @@ div.error {
 /* styling for buttons */
 button {
   margin: 5px;
+}
+
+#tabs {
+  border-style: none;
+}
+/* styling for checkerbox for tab deletion */
+#tabContainer {
+  display: flex;
+}
+
+#checkboxDiv {
+  min-width: 30%;
+  margin-right: 20px;
+}
+
+legend {
+  font-size: 20px;
+}
+
+.cbDiv {
+  display: inline-block;
+  width:30px;
+  margin: 2px;
 }
